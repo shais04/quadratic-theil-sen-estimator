@@ -1,6 +1,6 @@
 from statistics import median
 
-# Minor exception handling
+# Throw an error when the data to fit has an issue
 class FitError(Exception):
     def __init__(self, msg):
         super().__init__(msg)
@@ -66,8 +66,6 @@ class quadratic_estimator:
             raise FitError("There must be at least 3 distinct values in the array X for quadratic regression.")
         xy = [[X[i], y[i]] for i in range(len(X))]
         coeffs = []
-        # if len(X) != len(y):
-        #     throw new 
         for i in range(len(xy) - 2):
             for j in range(i + 1, len(xy) - 1):
                 for k in range(j + 1, len(xy)):
