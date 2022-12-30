@@ -7,18 +7,19 @@ class FitError(Exception):
 
 # Included for comparison
 class linear_estimator:
-    """
-    Initializes the estimator. Sets all the weights to None.
-    """
+    
     def __init__(self):
+        """
+        Initializes the estimator. Sets all the weights to None.
+        """
         self.a = None
         self.b = None
     
-    """
-    Fits the estimator to the points (X[i], y[i]).
-    Returns a list [a, b] corresponding to the coefficients in ax + b.
-    """
     def fit(self, X, y):
+        """
+        Fits the estimator to the points (X[i], y[i]).
+        Returns a list [a, b] corresponding to the coefficients in ax + b.
+        """
         if len(X) != len(y):
             raise FitError("Lists X and y must be of the same length.")
         if len(set(X)) < 2:
@@ -40,26 +41,27 @@ class linear_estimator:
         del(coeffs)
         return [self.a, self.b]
 
-    """
-    Uses the computed weights to estimate a value given an input.
-    """
     def predict(self, x):
+        """
+        Uses the computed weights to estimate a value given an input.
+        """
         return self.a * x + self.b
 
 class quadratic_estimator:
-    """
-    Initializes the estimator. Sets all the weights to None.
-    """
+    
     def __init__(self):
+        """
+        Initializes the estimator. Sets all the weights to None.
+        """
         self.a = None
         self.b = None
         self.c = None
 
-    """
-    Fits the estimator to the points (X[i], y[i]).
-    Returns a list [a, b, c] corresponding to the coefficients in ax^2 + bx + c.
-    """
     def fit(self, X, y):
+        """
+        Fits the estimator to the points (X[i], y[i]).
+        Returns a list [a, b, c] corresponding to the coefficients in ax^2 + bx + c.
+        """
         if len(X) != len(y):
             raise FitError("Lists X and y must be of the same length.")
         if len(set(X)) < 3:
@@ -94,8 +96,8 @@ class quadratic_estimator:
         del(coeffs)
         return [self.a, self.b, self.c]
 
-    """
-    Uses the computed weights to estimate a value given an input.
-    """
     def predict(self, x):
+        """
+        Uses the computed weights to estimate a value given an input.
+        """
         return self.a * x * x + self.b * x + self.c
