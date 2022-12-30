@@ -48,7 +48,7 @@ def get_coeff(name):
 print("This program tests the quadratic Theil-Sen estimator algorithm on a list of points.")
 while True:
     print("""Choose an option by entering the corresponding number:
-    1. Enter your own data points
+    1. Manually enter your own data points
     2. Generate somewhat noisy data from a ground-truth curve
     3. Use data from a file
     4. Quit""")
@@ -63,7 +63,7 @@ while True:
         did_regression = True
         get_more = True
         while get_more:
-            get_more = get_point(input("Enter a point: "), X, y)
+            get_more = get_point(input("Enter a point in the form x,y: "), X, y)
             if len(X) > 0:
                 min_x = min(min_x, X[-1])
                 max_x = max(max_x, X[-1])
