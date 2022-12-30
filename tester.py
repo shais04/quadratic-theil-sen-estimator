@@ -165,6 +165,7 @@ while True:
                 if ans == "2":
                     truth_y_vals = ground_truth(curve_x_vals)
                     plt.plot(curve_x_vals, truth_y_vals, linestyle = "dashed", color = "black", label = "Ground truth curve")
+                    plt.legend(loc="lower right")
                 plt.plot(X, y, "co")
                 plt.show()
 
