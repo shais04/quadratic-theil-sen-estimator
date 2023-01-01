@@ -24,19 +24,17 @@ class linear_estimator:
             raise FitError("Lists X and y must be of the same length.")
         if len(set(X)) < 2:
             raise FitError("There must be at least 2 distinct values in the array X for linear regression.")
-        xy = [[X[i], y[i]] for i in range(len(X))]
         coeffs = []
-        for i in range(len(xy) - 1):
-            for j in range(i + 1, len(xy)):
-                x1, y1 = xy[i]
-                x2, y2 = xy[j]
+        for i in range(len(X) - 1):
+            x1, y1 = X[i], y[i]
+            for j in range(i + 1, len(X)):
+                x2, y2 = X[j], y[j]
                 if x1 != x2:
                     coeffs.append((y2 - y1) / (x2 - x1))
         self.a = median(coeffs)
         coeffs = []
-        for pt in xy:
-            pt[1] -= self.a * pt[0]
-            coeffs.append(pt[1])
+        for i in range(len(X)):
+            coeffs.append(y[i] - self.a * X[i])
         self.b = median(coeffs)
         del(coeffs)
         return [self.a, self.b]
@@ -66,32 +64,29 @@ class quadratic_estimator:
             raise FitError("Lists X and y must be of the same length.")
         if len(set(X)) < 3:
             raise FitError("There must be at least 3 distinct values in the array X for quadratic regression.")
-        xy = [[X[i], y[i]] for i in range(len(X))]
         coeffs = []
-        for i in range(len(xy) - 2):
-            for j in range(i + 1, len(xy) - 1):
-                for k in range(j + 1, len(xy)):
-                    x1, y1 = xy[i]
-                    x2, y2 = xy[j]
-                    x3, y3 = xy[k]
-                    d1, d2, d3 = x2 - x3, x3 - x1, x1 - x2
+        for i in range(len(X) - 2):
+            x1, y1 = X[i], y[i]
+            for j in range(i + 1, len(X) - 1):
+                x2, y2 = X[j], y[j]
+                d3 = x1 - x2
+                for k in range(j + 1, len(X)):
+                    x3, y3 = X[k], y[k]
+                    d1, d2 = x2 - x3, x3 - x1
                     if d1 * d2 * d3 != 0:
                         coeffs.append((y1 * d1 + y2 * d2 + y3 * d3) / (x1 * x1 * d1 + x2 * x2 * d2 + x3 * x3 * d3))
         self.a = median(coeffs)
         coeffs = []
-        for pt in xy:
-            pt[1] -= self.a * pt[0] * pt[0]
-        for i in range(len(xy) - 1):
-            for j in range(i + 1, len(xy)):
-                x1, y1 = xy[i]
-                x2, y2 = xy[j]
+        for i in range(len(X) - 1):
+            x1, y1 = X[i], y[i] - self.a * X[i] * X[i]
+            for j in range(i + 1, len(X)):
+                x2, y2 = X[j], y[j] - self.a * X[j] * X[j]
                 if x1 != x2:
                     coeffs.append((y2 - y1) / (x2 - x1))
         self.b = median(coeffs)
         coeffs = []
-        for pt in xy:
-            pt[1] -= self.b * pt[0]
-            coeffs.append(pt[1])
+        for i in range(len(X)):
+            coeffs.append(y[i] - self.a * X[i] * X[i] - self.b * X[i])
         self.c = median(coeffs)
         del(coeffs)
         return [self.a, self.b, self.c]
